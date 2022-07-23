@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PageBackground extends StatelessWidget {
   final Widget? child;
@@ -37,11 +36,8 @@ class PageBackground extends StatelessWidget {
 
   Widget _buildStar() {
     return Center(
-      child: Opacity(
-        opacity: 0.2,
-        child: SvgPicture.asset(
-          "resources/images/star.svg",
-        ),
+      child: Image.asset(
+        "resources/images/star.png",
       ),
     );
   }

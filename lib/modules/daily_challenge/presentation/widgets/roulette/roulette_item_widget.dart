@@ -1,4 +1,4 @@
-import 'package:daily_challenge/data/models/roulette_item/roulette_item.dart';
+import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/accent_solid_shadow_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/primary_solid_shadow_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/solid_shadow_card.dart';

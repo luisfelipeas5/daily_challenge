@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SolidShadowCard extends StatelessWidget {
+class SolidShadowCard extends StatefulWidget {
   static const double _shadowHeight = 6;
 
   static final BorderRadius _borderRadius = BorderRadius.circular(20);
@@ -9,6 +9,7 @@ class SolidShadowCard extends StatelessWidget {
   final Color shadowColor;
   final double? width;
   final double? backgroundHeight;
+  final VoidCallback? onTap;
   final Widget? child;
 
   const SolidShadowCard({
@@ -17,6 +18,7 @@ class SolidShadowCard extends StatelessWidget {
     required this.shadowColor,
     this.width,
     this.backgroundHeight,
+    this.onTap,
     this.child,
   });
 
@@ -26,38 +28,67 @@ class SolidShadowCard extends StatelessWidget {
   }
 
   @override
+  State<SolidShadowCard> createState() => _SolidShadowCardState();
+}
+
+class _SolidShadowCardState extends State<SolidShadowCard> {
+  bool _tappedDown = false;
+
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: _borderRadius,
+      borderRadius: SolidShadowCard._borderRadius,
       child: Container(
-        color: shadowColor,
-        width: width,
+        color: widget.shadowColor,
+        width: widget.width,
         child: Column(
           children: [
             _buildBackground(
               _buildChild(),
             ),
-            const SizedBox(height: _shadowHeight),
+            _buildFakeShadow(),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildFakeShadow() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 100),
+      height: _tappedDown
+          ? SolidShadowCard._shadowHeight * 1.5
+          : SolidShadowCard._shadowHeight,
+    );
+  }
+
   Widget _buildChild() {
     return Center(
-      child: child ?? Container(),
+      child: widget.child ?? Container(),
     );
   }
 
   Widget _buildBackground(Widget backgroundChild) {
-    return ClipRRect(
-      borderRadius: _borderRadius,
-      child: Container(
-        height: backgroundHeight,
-        decoration: backgroundDecoration,
-        child: backgroundChild,
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => _setTappedDown(true),
+      onTapUp: (_) => _setTappedDown(false),
+      onTapCancel: () => _setTappedDown(false),
+      child: ClipRRect(
+        borderRadius: SolidShadowCard._borderRadius,
+        child: Container(
+          height: widget.backgroundHeight,
+          decoration: widget.backgroundDecoration,
+          child: backgroundChild,
+        ),
       ),
     );
+  }
+
+  void _setTappedDown(bool value) {
+    if (widget.onTap == null) return;
+    setState(() {
+      _tappedDown = value;
+    });
   }
 }

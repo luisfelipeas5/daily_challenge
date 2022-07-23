@@ -6,11 +6,11 @@ class AccentSolidShadowCard extends SolidShadowCard {
     super.key,
     super.backgroundHeight,
     super.width,
-    Widget? child,
+    super.onTap,
+    super.child,
   }) : super(
           backgroundDecoration: _backgroundDecoration,
           shadowColor: _shadowColor,
-          child: child,
         );
 
   static final BoxDecoration _backgroundDecoration = BoxDecoration(
@@ -22,6 +22,8 @@ class AccentSolidShadowCard extends SolidShadowCard {
   );
 
   static const LinearGradient _gradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     colors: [
       Color.fromRGBO(253, 208, 77, 1),
       Color.fromRGBO(255, 156, 21, 1),

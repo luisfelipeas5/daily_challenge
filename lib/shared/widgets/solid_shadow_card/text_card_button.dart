@@ -10,12 +10,14 @@ class TextCardButton extends StatelessWidget {
   final String text;
   final double? minWidth;
   final TextCardButtonSize size;
+  final VoidCallback? onTap;
 
   const TextCardButton({
     super.key,
     required this.text,
     this.size = TextCardButtonSize.medium,
     this.minWidth,
+    this.onTap,
   });
 
   @override
@@ -24,6 +26,7 @@ class TextCardButton extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         AccentSolidShadowCard(
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(20),
             constraints: BoxConstraints(
