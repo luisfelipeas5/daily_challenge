@@ -1,6 +1,6 @@
 import 'package:daily_challenge/modules/app/text_theme.dart';
 import 'package:daily_challenge/modules/daily_challenge/dependencies/daily_challenge_page_dependencies.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/redirector/daily_challenge_page_redirector/daily_challenge_page_redirector.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/redirector/app_page_redirector/app_page_redirector.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -17,7 +17,7 @@ class App extends StatelessWidget {
         textTheme: const AppTextTheme(),
       ),
       home: DailyChallengePageDependencies(
-        child: const DailyChallengePageRedirector(),
+        child: const AppPageRedirector(),
       ),
     );
   }

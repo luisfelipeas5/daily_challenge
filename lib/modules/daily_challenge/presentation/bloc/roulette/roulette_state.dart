@@ -1,15 +1,15 @@
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/daily_challenge/daily_challenge_page_status.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class DailyChallengeState extends Equatable {
+class RouletteState extends Equatable {
   final List<RouletteItem> rouletteItems;
-  final DailyChallengePageStatus pageStatus;
+  final RoulettePageStatus pageStatus;
   final int? centerItemIndex;
 
-  const DailyChallengeState({
+  const RouletteState({
     required this.rouletteItems,
     required this.pageStatus,
     this.centerItemIndex,
@@ -22,12 +22,12 @@ class DailyChallengeState extends Equatable {
         centerItemIndex,
       ];
 
-  DailyChallengeState copyWith({
+  RouletteState copyWith({
     List<RouletteItem>? rouletteItems,
-    DailyChallengePageStatus? pageStatus,
+    RoulettePageStatus? pageStatus,
     int? centerItemIndex,
   }) {
-    return DailyChallengeState(
+    return RouletteState(
       rouletteItems: rouletteItems ?? this.rouletteItems,
       pageStatus: pageStatus ?? this.pageStatus,
       centerItemIndex: centerItemIndex ?? this.centerItemIndex,

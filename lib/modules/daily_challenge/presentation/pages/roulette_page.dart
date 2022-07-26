@@ -1,37 +1,37 @@
-import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/daily_challenge/daily_challenge_bloc.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/daily_challenge/daily_challenge_event.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/instructions/roulette_instructions.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/logo/logo.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/daily_challenge_roulette.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/spin_button/spin_button.dart';
-import 'package:daily_challenge/shared/widgets/coins_background/coins_background.dart';
+import 'package:daily_challenge/shared/widgets/coins_background/page_coins_background.dart';
 import 'package:daily_challenge/shared/widgets/page_background/page_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DailyChallengePage extends StatefulWidget {
-  const DailyChallengePage({
+class RoulettePage extends StatefulWidget {
+  const RoulettePage({
     super.key,
   });
 
   @override
-  State<DailyChallengePage> createState() => _DailyChallengePageState();
+  State<RoulettePage> createState() => _RoulettePageState();
 }
 
-class _DailyChallengePageState extends State<DailyChallengePage> {
-  DailyChallengeBloc get _bloc => BlocProvider.of(context);
+class _RoulettePageState extends State<RoulettePage> {
+  RouletteBloc get _bloc => BlocProvider.of(context);
 
   @override
   void initState() {
     super.initState();
-    _bloc.add(DailyChallengeLoadEvent());
+    _bloc.add(RouletteLoadEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageBackground(
-        child: CoinsBackground(
+        child: PageCoinsBackground(
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +54,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
   }
 
   Widget _buildRoulette() {
-    return const DailyChallengeRoulette();
+    return const PageRoulette();
   }
 
   Widget _builtBottom() {

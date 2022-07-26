@@ -22,24 +22,19 @@ class TextCardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AccentSolidShadowCard(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            constraints: BoxConstraints(
-              minWidth: minWidth ?? 0,
-            ),
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: _getTextStyle(context),
-            ),
-          ),
+    return AccentSolidShadowCard(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        constraints: BoxConstraints(
+          minWidth: minWidth ?? 0,
         ),
-      ],
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: _getTextStyle(context),
+        ),
+      ),
     );
   }
 

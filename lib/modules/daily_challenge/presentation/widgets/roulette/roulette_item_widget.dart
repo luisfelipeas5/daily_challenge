@@ -13,15 +13,22 @@ class RouletteItemWidget extends StatelessWidget {
     required this.item,
   });
 
-  static double? getHeight() {
-    return SolidShadowCard.getHeight(_cardBackgroundHeight);
+  static double? getHeight(BuildContext context) {
+    final cardBackgroundHeight = _getCardBackgroundHeight(context);
+    return SolidShadowCard.getHeight(cardBackgroundHeight);
   }
 
-  static double getWidth() {
-    return _cardBackgroundHeight + 2 * _horizontalMargin;
+  static double getWidth(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth / _itemPerScreen;
   }
+
+  static double _getCardBackgroundHeight(BuildContext context) =>
+      getWidth(context);
 
   static double get _horizontalMargin => 4.5;
+
+  static const int _itemPerScreen = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -29,38 +36,38 @@ class RouletteItemWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         horizontal: _horizontalMargin,
       ),
-      child: _buildCard(),
+      child: _buildCard(context),
     );
   }
 
-  Widget _buildCard() {
+  Widget _buildCard(BuildContext context) {
     switch (item.type) {
       case RouletteType.success:
-        return _buildSuccessCard();
+        return _buildSuccessCard(context);
       case RouletteType.failed:
-        return _buildFailedCard();
+        return _buildFailedCard(context);
     }
   }
 
-  Widget _buildSuccessCard() {
+  Widget _buildSuccessCard(BuildContext context) {
+    final cardBackgroundHeight = _getCardBackgroundHeight(context);
     return AccentSolidShadowCard(
-      backgroundHeight: _cardBackgroundHeight,
-      width: _cardBackgroundHeight,
+      backgroundHeight: cardBackgroundHeight,
+      width: cardBackgroundHeight,
       child: SvgPicture.asset(
         "resources/images/success_coin.svg",
       ),
     );
   }
 
-  Widget _buildFailedCard() {
+  Widget _buildFailedCard(BuildContext context) {
+    final cardBackgroundHeight = _getCardBackgroundHeight(context);
     return PrimarySolidShadowCard(
-      backgroundHeight: _cardBackgroundHeight,
-      width: _cardBackgroundHeight,
+      backgroundHeight: cardBackgroundHeight,
+      width: cardBackgroundHeight,
       child: SvgPicture.asset(
         "resources/images/blue_cry.svg",
       ),
     );
   }
-
-  static double get _cardBackgroundHeight => 87;
 }

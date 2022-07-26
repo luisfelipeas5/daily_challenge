@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class BiasAlignment extends StatelessWidget {
-  final double horizontalBias;
-  final double verticalBias;
+class DoubleDirectionAlignment extends StatelessWidget {
+  final double horizontal;
+  final double vertical;
   final Widget child;
 
-  const BiasAlignment({
+  const DoubleDirectionAlignment({
     super.key,
-    required this.horizontalBias,
-    required this.verticalBias,
+    required this.horizontal,
+    required this.vertical,
     required this.child,
   });
 
@@ -17,18 +17,18 @@ class BiasAlignment extends StatelessWidget {
     final topAligment = Alignment.lerp(
       Alignment.topLeft,
       Alignment.topRight,
-      horizontalBias,
+      horizontal,
     );
     final bottomAligment = Alignment.lerp(
       Alignment.bottomLeft,
       Alignment.bottomRight,
-      horizontalBias,
+      horizontal,
     );
     return Align(
       alignment: Alignment.lerp(
         topAligment,
         bottomAligment,
-        verticalBias,
+        vertical,
       )!,
       child: child,
     );

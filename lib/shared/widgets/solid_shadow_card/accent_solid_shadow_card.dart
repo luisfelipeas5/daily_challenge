@@ -19,6 +19,7 @@ class AccentSolidShadowCard extends SolidShadowCard {
       color: const Color.fromRGBO(229, 140, 57, 1),
       width: 2,
     ),
+    borderRadius: SolidShadowCard.borderRadius,
   );
 
   static const LinearGradient _gradient = LinearGradient(

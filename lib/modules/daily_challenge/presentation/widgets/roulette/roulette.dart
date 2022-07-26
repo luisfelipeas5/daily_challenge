@@ -10,21 +10,50 @@ class Roulette extends StatefulWidget {
   final RouletteStatus status;
   final int? centerItemIndex;
   final VoidCallback? onSpinningStopped;
+  final double initialScrollOffset;
 
-  const Roulette({
+  const Roulette._({
     super.key,
+    required this.initialScrollOffset,
     required this.rouletteItems,
     required this.status,
     required this.centerItemIndex,
     this.onSpinningStopped,
   });
 
+  factory Roulette.byContext(
+    BuildContext context, {
+    Key? key,
+    required List<RouletteItem> rouletteItems,
+    required RouletteStatus status,
+    required int? centerItemIndex,
+    VoidCallback? onSpinningStopped,
+  }) {
+    final initialScrollOffset = RouletteItemWidget.getWidth(context) / 2;
+    return Roulette._(
+      key: key,
+      initialScrollOffset: initialScrollOffset,
+      rouletteItems: rouletteItems,
+      status: status,
+      centerItemIndex: centerItemIndex,
+      onSpinningStopped: onSpinningStopped,
+    );
+  }
+
   @override
   State<Roulette> createState() => _RouletteState();
 }
 
 class _RouletteState extends State<Roulette> {
-  final _scrollController = ScrollController();
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController(
+      initialScrollOffset: widget.initialScrollOffset,
+    );
+  }
 
   @override
   void didUpdateWidget(covariant Roulette oldWidget) {
@@ -52,7 +81,7 @@ class _RouletteState extends State<Roulette> {
 
   Widget _buildList() {
     return SizedBox(
-      height: RouletteItemWidget.getHeight(),
+      height: RouletteItemWidget.getHeight(context),
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
@@ -78,14 +107,19 @@ class _RouletteState extends State<Roulette> {
   }
 
   Future<void> _spin(int centerItemIndex) async {
-    final itemWidth = RouletteItemWidget.getWidth();
-    final offset = centerItemIndex * itemWidth;
-
+    final offset = _getOffsetToCenter(centerItemIndex);
     await _scrollController.animateTo(
       offset,
       duration: _spinDuration,
       curve: Curves.decelerate,
     );
     widget.onSpinningStopped?.call();
+  }
+
+  double _getOffsetToCenter(int centerItemIndex) {
+    final itemWidth = RouletteItemWidget.getWidth(context);
+    final totalOffset = centerItemIndex * itemWidth;
+    final halfItemWidth = itemWidth / 2;
+    return totalOffset + halfItemWidth;
   }
 }

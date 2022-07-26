@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SolidShadowCard extends StatefulWidget {
   static const double _shadowHeight = 6;
 
-  static final BorderRadius _borderRadius = BorderRadius.circular(20);
+  static final BorderRadius borderRadius = BorderRadius.circular(15);
 
   final BoxDecoration backgroundDecoration;
   final Color shadowColor;
@@ -36,30 +36,41 @@ class _SolidShadowCardState extends State<SolidShadowCard> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: SolidShadowCard._borderRadius,
-      child: Container(
-        color: widget.shadowColor,
-        width: widget.width,
-        child: Column(
-          children: [
-            _buildBackground(
-              _buildChild(),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ClipRRect(
+          borderRadius: SolidShadowCard.borderRadius,
+          child: Container(
+            color: widget.shadowColor,
+            width: widget.width,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildBackground(
+                  _buildChild(),
+                ),
+                _buildFakeShadow(),
+              ],
             ),
-            _buildFakeShadow(),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
   Widget _buildFakeShadow() {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
-      height: _tappedDown
-          ? SolidShadowCard._shadowHeight * 1.5
-          : SolidShadowCard._shadowHeight,
+      height: _fakeShadowHeight,
     );
+  }
+
+  double get _fakeShadowHeight {
+    if (widget.onTap == null || _tappedDown) {
+      return SolidShadowCard._shadowHeight;
+    }
+    return 0;
   }
 
   Widget _buildChild() {
@@ -75,7 +86,7 @@ class _SolidShadowCardState extends State<SolidShadowCard> {
       onTapUp: (_) => _setTappedDown(false),
       onTapCancel: () => _setTappedDown(false),
       child: ClipRRect(
-        borderRadius: SolidShadowCard._borderRadius,
+        borderRadius: SolidShadowCard.borderRadius,
         child: Container(
           height: widget.backgroundHeight,
           decoration: widget.backgroundDecoration,
