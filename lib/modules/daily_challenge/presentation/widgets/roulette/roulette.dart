@@ -83,6 +83,7 @@ class _RouletteState extends State<Roulette> {
     return SizedBox(
       height: RouletteItemWidget.getHeight(context),
       child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: _itemBuilder,
@@ -108,8 +109,9 @@ class _RouletteState extends State<Roulette> {
 
   Future<void> _spin(int centerItemIndex) async {
     final offset = _getOffsetToCenter(centerItemIndex);
+    final currentCenterOffset = _getCurrentCenterOffset();
     await _scrollController.animateTo(
-      offset,
+      offset - currentCenterOffset,
       duration: _spinDuration,
       curve: Curves.decelerate,
     );
@@ -118,8 +120,11 @@ class _RouletteState extends State<Roulette> {
 
   double _getOffsetToCenter(int centerItemIndex) {
     final itemWidth = RouletteItemWidget.getWidth(context);
-    final totalOffset = centerItemIndex * itemWidth;
-    final halfItemWidth = itemWidth / 2;
-    return totalOffset + halfItemWidth;
+    return (centerItemIndex * itemWidth) + itemWidth / 2;
+  }
+
+  double _getCurrentCenterOffset() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth / 2;
   }
 }

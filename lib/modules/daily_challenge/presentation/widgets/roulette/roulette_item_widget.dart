@@ -24,7 +24,7 @@ class RouletteItemWidget extends StatelessWidget {
   }
 
   static double _getCardBackgroundHeight(BuildContext context) =>
-      getWidth(context);
+      getWidth(context) - (_horizontalMargin * 2);
 
   static double get _horizontalMargin => 4.5;
 
