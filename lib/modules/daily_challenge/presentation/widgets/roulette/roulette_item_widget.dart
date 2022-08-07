@@ -1,5 +1,6 @@
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
-import 'package:daily_challenge/shared/widgets/solid_shadow_card/accent_solid_shadow_card.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_dimens.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/success_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/primary_solid_shadow_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/solid_shadow_card.dart';
 import 'package:flutter/material.dart';
@@ -14,27 +15,16 @@ class RouletteItemWidget extends StatelessWidget {
   });
 
   static double? getHeight(BuildContext context) {
-    final cardBackgroundHeight = _getCardBackgroundHeight(context);
+    final cardBackgroundHeight =
+        RouletteDimens.getCardBackgroundHeight(context);
     return SolidShadowCard.getHeight(cardBackgroundHeight);
   }
-
-  static double getWidth(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return screenWidth / _itemPerScreen;
-  }
-
-  static double _getCardBackgroundHeight(BuildContext context) =>
-      getWidth(context) - (_horizontalMargin * 2);
-
-  static double get _horizontalMargin => 4.5;
-
-  static const int _itemPerScreen = 4;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: _horizontalMargin,
+        horizontal: RouletteDimens.horizontalMargin,
       ),
       child: _buildCard(context),
     );
@@ -50,18 +40,12 @@ class RouletteItemWidget extends StatelessWidget {
   }
 
   Widget _buildSuccessCard(BuildContext context) {
-    final cardBackgroundHeight = _getCardBackgroundHeight(context);
-    return AccentSolidShadowCard(
-      backgroundHeight: cardBackgroundHeight,
-      width: cardBackgroundHeight,
-      child: SvgPicture.asset(
-        "resources/images/success_coin.svg",
-      ),
-    );
+    return const SuccessCard();
   }
 
   Widget _buildFailedCard(BuildContext context) {
-    final cardBackgroundHeight = _getCardBackgroundHeight(context);
+    final cardBackgroundHeight =
+        RouletteDimens.getCardBackgroundHeight(context);
     return PrimarySolidShadowCard(
       backgroundHeight: cardBackgroundHeight,
       width: cardBackgroundHeight,

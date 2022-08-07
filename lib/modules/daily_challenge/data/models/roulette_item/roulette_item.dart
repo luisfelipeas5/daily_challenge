@@ -10,3 +10,7 @@ class RouletteItem {
     required this.type,
   });
 }
+
+extension RouletteTypeExtension on RouletteType {
+  bool get success => this == RouletteType.success;
+}

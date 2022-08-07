@@ -2,7 +2,7 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/instructions/roulette_instructions.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/logo/logo.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/daily_challenge_roulette.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/page_roulette.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/spin_button/spin_button.dart';
 import 'package:daily_challenge/shared/widgets/coins_background/page_coins_background.dart';
 import 'package:daily_challenge/shared/widgets/page_background/page_background.dart';

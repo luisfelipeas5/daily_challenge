@@ -78,7 +78,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     final centerItemIndex = state.centerItemIndex;
     if (centerItemIndex != null) {
       final rouletteItem = rouletteItems[centerItemIndex % length];
-      return rouletteItem.type == RouletteType.success;
+      return rouletteItem.type.success;
     }
     return false;
   }

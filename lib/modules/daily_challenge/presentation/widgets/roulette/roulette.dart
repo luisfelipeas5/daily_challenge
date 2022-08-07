@@ -1,4 +1,5 @@
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_dimens.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_item_widget.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_status.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class Roulette extends StatefulWidget {
     required int? centerItemIndex,
     VoidCallback? onSpinningStopped,
   }) {
-    final initialScrollOffset = RouletteItemWidget.getWidth(context) / 2;
+    final initialScrollOffset = RouletteDimens.getWidth(context) / 2;
     return Roulette._(
       key: key,
       initialScrollOffset: initialScrollOffset,
@@ -119,7 +120,7 @@ class _RouletteState extends State<Roulette> {
   }
 
   double _getOffsetToCenter(int centerItemIndex) {
-    final itemWidth = RouletteItemWidget.getWidth(context);
+    final itemWidth = RouletteDimens.getWidth(context);
     return (centerItemIndex * itemWidth) + itemWidth / 2;
   }
 
