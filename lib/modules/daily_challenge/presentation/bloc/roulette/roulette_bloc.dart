@@ -7,8 +7,8 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const int _centerItemIndexMultiplier = 10;
-const int _centerItemIndexInitialOffset = 20;
+const int _centerItemIndexMultiplier = 100;
+const int _centerItemIndexInitialOffset = 100;
 
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   RouletteBloc()

@@ -4,7 +4,7 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/rou
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_status.dart';
 import 'package:flutter/material.dart';
 
-const _spinDuration = Duration(milliseconds: 3000);
+const _spinDuration = Duration(milliseconds: 30000);
 
 class Roulette extends StatefulWidget {
   final List<RouletteItem> rouletteItems;

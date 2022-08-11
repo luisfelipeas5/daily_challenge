@@ -45,7 +45,7 @@ class _SolidShadowCardState extends State<SolidShadowCard> {
   void initState() {
     super.initState();
     _finalAnimatedState = !widget.animate;
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.animate) {
       _scheduleEnterAnimation();
     }
   }
