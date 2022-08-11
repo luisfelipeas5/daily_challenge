@@ -4,6 +4,7 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dia
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/dialog_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FailedPage extends StatelessWidget {
   const FailedPage({super.key});
@@ -11,8 +12,11 @@ class FailedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DialogOverlay(
+      onTap: () => onCtaTapped(context),
       child: AppDialog(
-        headerIconSvgPath: "resources/images/blue_cry.svg",
+        header: SvgPicture.asset(
+          "resources/images/blue_cry.svg",
+        ),
         ctaText: "Sair",
         onCtaTapped: () => onCtaTapped(context),
         child: Padding(

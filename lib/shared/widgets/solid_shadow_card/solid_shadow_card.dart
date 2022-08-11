@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const _noClickableAnimationDuration = Duration(milliseconds: 300);
+const _clickableAnimationDuration = Duration(milliseconds: 100);
+const _animationDelay = Duration(milliseconds: 700);
+
 class SolidShadowCard extends StatefulWidget {
   static const double _shadowHeight = 6;
 
@@ -10,6 +14,7 @@ class SolidShadowCard extends StatefulWidget {
   final double? width;
   final double? backgroundHeight;
   final VoidCallback? onTap;
+  final bool animate;
   final Widget? child;
 
   const SolidShadowCard({
@@ -19,6 +24,7 @@ class SolidShadowCard extends StatefulWidget {
     this.width,
     this.backgroundHeight,
     this.onTap,
+    this.animate = true,
     this.child,
   });
 
@@ -33,6 +39,23 @@ class SolidShadowCard extends StatefulWidget {
 
 class _SolidShadowCardState extends State<SolidShadowCard> {
   bool _tappedDown = false;
+  late bool _finalAnimatedState;
+
+  @override
+  void initState() {
+    super.initState();
+    _finalAnimatedState = !widget.animate;
+    if (widget.onTap == null) {
+      _scheduleEnterAnimation();
+    }
+  }
+
+  Future<void> _scheduleEnterAnimation() async {
+    await Future.delayed(_animationDelay);
+    setState(() {
+      _finalAnimatedState = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +84,15 @@ class _SolidShadowCardState extends State<SolidShadowCard> {
 
   Widget _buildFakeShadow() {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 100),
+      duration: widget.onTap == null
+          ? _noClickableAnimationDuration
+          : _clickableAnimationDuration,
       height: _fakeShadowHeight,
     );
   }
 
   double get _fakeShadowHeight {
-    if (widget.onTap == null || _tappedDown) {
+    if ((widget.onTap == null && _finalAnimatedState) || _tappedDown) {
       return SolidShadowCard._shadowHeight;
     }
     return 0;

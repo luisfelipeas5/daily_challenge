@@ -8,6 +8,7 @@ class AccentSolidShadowCard extends SolidShadowCard {
     super.width,
     super.onTap,
     super.child,
+    super.animate,
   }) : super(
           backgroundDecoration: _backgroundDecoration,
           shadowColor: _shadowColor,

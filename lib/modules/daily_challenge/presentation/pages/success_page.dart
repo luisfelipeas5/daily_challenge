@@ -2,6 +2,8 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/app_dialog.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/dialog_overlay.dart';
+import 'package:daily_challenge/shared/widgets/coin/animated_rotation_sensor_coin.dart';
+import 'package:daily_challenge/shared/widgets/coin/sensor_coin.dart';
 import 'package:daily_challenge/shared/widgets/coins_background/dailog_coins_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,9 @@ class SuccessPage extends StatelessWidget {
     return DialogOverlay(
       child: DialogCoinsBackground(
         child: AppDialog(
-          headerIconSvgPath: "resources/images/coin.svg",
+          header: const AnimatedRotationSensorCoin(
+            size: 100,
+          ),
           ctaText: "Resgatar",
           onCtaTapped: () => onCtaTapped(context),
           child: Padding(

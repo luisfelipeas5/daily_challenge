@@ -2,10 +2,9 @@ import 'package:daily_challenge/shared/widgets/double_direction_alignment/double
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/dialog_container_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/text_card_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AppDialog extends StatelessWidget {
-  final String headerIconSvgPath;
+  final Widget header;
   final String ctaText;
   final VoidCallback onCtaTapped;
   final Widget child;
@@ -13,7 +12,7 @@ class AppDialog extends StatelessWidget {
   const AppDialog({
     super.key,
     required this.ctaText,
-    required this.headerIconSvgPath,
+    required this.header,
     required this.onCtaTapped,
     required this.child,
   });
@@ -52,9 +51,7 @@ class AppDialog extends StatelessWidget {
       child: SizedBox(
         height: 100,
         width: 100,
-        child: SvgPicture.asset(
-          headerIconSvgPath,
-        ),
+        child: header,
       ),
     );
   }

@@ -6,6 +6,7 @@ class PrimarySolidShadowCard extends SolidShadowCard {
     super.key,
     required super.backgroundHeight,
     required super.width,
+    super.animate,
     Widget? child,
   }) : super(
           backgroundDecoration: _backgroundDecoration,

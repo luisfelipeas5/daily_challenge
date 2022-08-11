@@ -47,6 +47,7 @@ class Roulette extends StatefulWidget {
 
 class _RouletteState extends State<Roulette> {
   late ScrollController _scrollController;
+  bool _spinning = false;
 
   @override
   void initState() {
@@ -97,6 +98,7 @@ class _RouletteState extends State<Roulette> {
     final rouletteItem = widget.rouletteItems[index % itemLength];
     return RouletteItemWidget(
       item: rouletteItem,
+      animate: !_spinning,
     );
   }
 
@@ -111,11 +113,13 @@ class _RouletteState extends State<Roulette> {
   Future<void> _spin(int centerItemIndex) async {
     final offset = _getOffsetToCenter(centerItemIndex);
     final currentCenterOffset = _getCurrentCenterOffset();
+    _spinning = true;
     await _scrollController.animateTo(
       offset - currentCenterOffset,
       duration: _spinDuration,
       curve: Curves.decelerate,
     );
+    _spinning = false;
     widget.onSpinningStopped?.call();
   }
 

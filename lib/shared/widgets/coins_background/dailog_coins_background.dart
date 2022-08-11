@@ -1,4 +1,4 @@
-import 'package:daily_challenge/shared/widgets/coin/animated_sensor_coin.dart';
+import 'package:daily_challenge/shared/widgets/coin/animated_translation_sensor_coin.dart';
 import 'package:daily_challenge/shared/widgets/double_direction_alignment/double_direction_alignment.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/single_child_widget.dart';
@@ -28,12 +28,12 @@ class DialogCoinsBackground extends SingleChildStatelessWidget {
       const DoubleDirectionAlignment(
         horizontal: 0.2,
         vertical: 0.3,
-        child: AnimatedSensorCoin(size: 72),
+        child: AnimatedTranslationSensorCoin(size: 72),
       ),
       const DoubleDirectionAlignment(
         horizontal: 0.8,
         vertical: 0.15,
-        child: AnimatedSensorCoin(size: 106),
+        child: AnimatedTranslationSensorCoin(size: 106),
       ),
     ];
   }
@@ -43,12 +43,12 @@ class DialogCoinsBackground extends SingleChildStatelessWidget {
       const DoubleDirectionAlignment(
         horizontal: 0.08,
         vertical: 0.8,
-        child: AnimatedSensorCoin(size: 33),
+        child: AnimatedTranslationSensorCoin(size: 33),
       ),
       const DoubleDirectionAlignment(
         horizontal: 0.9,
         vertical: 0.75,
-        child: AnimatedSensorCoin(size: 50),
+        child: AnimatedTranslationSensorCoin(size: 50),
       ),
     ];
   }

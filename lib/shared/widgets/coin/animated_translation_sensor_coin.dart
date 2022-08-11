@@ -6,19 +6,25 @@ import 'package:flutter/material.dart';
 const _minAnimationDuration = Duration(milliseconds: 700);
 const _randomDurationFactor = 700;
 
-class AnimatedSensorCoin extends StatefulWidget {
+class AnimatedTranslationSensorCoin extends StatefulWidget {
   final double size;
+  final bool translateY;
+  final bool translateZ;
 
-  const AnimatedSensorCoin({
+  const AnimatedTranslationSensorCoin({
     super.key,
     required this.size,
+    this.translateY = true,
+    this.translateZ = false,
   });
 
   @override
-  State<AnimatedSensorCoin> createState() => _AnimatedSensorCoinState();
+  State<AnimatedTranslationSensorCoin> createState() =>
+      _AnimatedTranslationSensorCoinState();
 }
 
-class _AnimatedSensorCoinState extends State<AnimatedSensorCoin>
+class _AnimatedTranslationSensorCoinState
+    extends State<AnimatedTranslationSensorCoin>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -60,7 +66,7 @@ class _AnimatedSensorCoinState extends State<AnimatedSensorCoin>
 
   Matrix4 _getTransform() => Matrix4.translationValues(
         0,
-        _getCurrentTranslationY(),
+        widget.translateY ? _getCurrentTranslationY() : 0,
         0,
       );
 

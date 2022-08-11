@@ -8,10 +8,12 @@ import 'package:flutter_svg/svg.dart';
 
 class RouletteItemWidget extends StatelessWidget {
   final RouletteItem item;
+  final bool animate;
 
   const RouletteItemWidget({
     super.key,
     required this.item,
+    required this.animate,
   });
 
   static double? getHeight(BuildContext context) {
@@ -40,7 +42,9 @@ class RouletteItemWidget extends StatelessWidget {
   }
 
   Widget _buildSuccessCard(BuildContext context) {
-    return const SuccessCard();
+    return SuccessCard(
+      animate: animate,
+    );
   }
 
   Widget _buildFailedCard(BuildContext context) {
@@ -49,6 +53,7 @@ class RouletteItemWidget extends StatelessWidget {
     return PrimarySolidShadowCard(
       backgroundHeight: cardBackgroundHeight,
       width: cardBackgroundHeight,
+      animate: animate,
       child: SvgPicture.asset(
         "resources/images/blue_cry.svg",
       ),

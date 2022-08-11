@@ -31,7 +31,6 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   ) {
     const rouletteItems = [
       RouletteItem(type: RouletteType.failed),
-      RouletteItem(type: RouletteType.failed),
       RouletteItem(type: RouletteType.success),
     ];
     emit(state.copyWith(
