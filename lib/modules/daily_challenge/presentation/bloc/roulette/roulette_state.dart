@@ -9,11 +9,13 @@ class RouletteState extends Equatable {
   final RoulettePageStatus pageStatus;
   final int? centerItemIndex;
   final bool specialMode;
+  final bool draggingCoin;
 
   const RouletteState({
     required this.rouletteItems,
     required this.pageStatus,
     required this.specialMode,
+    required this.draggingCoin,
     this.centerItemIndex,
   });
 
@@ -23,6 +25,7 @@ class RouletteState extends Equatable {
         rouletteItems,
         centerItemIndex,
         specialMode,
+        draggingCoin,
       ];
 
   RouletteState copyWith({
@@ -30,12 +33,14 @@ class RouletteState extends Equatable {
     RoulettePageStatus? pageStatus,
     int? centerItemIndex,
     bool? specialMode,
+    bool? draggingCoin,
   }) {
     return RouletteState(
       rouletteItems: rouletteItems ?? this.rouletteItems,
       pageStatus: pageStatus ?? this.pageStatus,
       centerItemIndex: centerItemIndex ?? this.centerItemIndex,
       specialMode: specialMode ?? this.specialMode,
+      draggingCoin: draggingCoin ?? this.draggingCoin,
     );
   }
 }

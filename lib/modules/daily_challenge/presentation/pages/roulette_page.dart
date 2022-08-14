@@ -5,7 +5,7 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/log
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/page_roulette.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/sound_player/sound_player.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/spin_button/spin_button.dart';
-import 'package:daily_challenge/shared/widgets/coins_background/page_coins_background.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/coins_background/page_coins_background.dart';
 import 'package:daily_challenge/shared/widgets/page_background/page_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

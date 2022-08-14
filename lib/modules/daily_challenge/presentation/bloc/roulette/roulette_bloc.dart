@@ -14,12 +14,16 @@ const int _specialCenterItemIndexMultiplier = 50;
 const int _specialCenterItemIndexInitialOffset = 100;
 
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
+  var coinsAdded = 0;
+  var coinsDragged = 0;
+
   RouletteBloc()
       : super(
           const RouletteState(
             rouletteItems: [],
             pageStatus: RoulettePageStatus.idle,
             specialMode: false,
+            draggingCoin: false,
           ),
         ) {
     on<RouletteLoadEvent>(_onLoad);
@@ -27,6 +31,9 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     on<RouletteSpinStoppedEvent>(_spinStopped);
     on<RouletteSuccessDialogCloseEvent>(_onSuccessDialogClose);
     on<RouletteFailedDialogCloseEvent>(_onFailedDialogClose);
+    on<RouletteAddCoinEvent>(_onAddCoin);
+    on<RouletteCoinDraggedEvent>(_onCoinDragged);
+    on<RouletteDraggingCoinEvent>(_onDraggingCoin);
   }
 
   FutureOr<void> _onLoad(
@@ -59,7 +66,8 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     final actualItemIndex = state.centerItemIndex ?? 0;
     return actualItemIndex +
         _getCenterItemIndexInitialOffset() +
-        (realCenterItemIndex * _getCenterItemIndexMultiplier());
+        (realCenterItemIndex * _getCenterItemIndexMultiplier()) +
+        realCenterItemIndex;
   }
 
   int _getCenterItemIndexMultiplier() {
@@ -118,5 +126,33 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     emit(state.copyWith(
       pageStatus: RoulettePageStatus.idle,
     ));
+  }
+
+  FutureOr<void> _onAddCoin(
+    RouletteAddCoinEvent event,
+    Emitter<RouletteState> emit,
+  ) {
+    coinsAdded++;
+  }
+
+  FutureOr<void> _onDraggingCoin(
+    RouletteDraggingCoinEvent event,
+    Emitter<RouletteState> emit,
+  ) {
+    emit(state.copyWith(
+      draggingCoin: event.dragging,
+    ));
+  }
+
+  FutureOr<void> _onCoinDragged(
+    RouletteCoinDraggedEvent event,
+    Emitter<RouletteState> emit,
+  ) {
+    coinsDragged++;
+    if (coinsAdded == coinsDragged) {
+      emit(state.copyWith(
+        specialMode: true,
+      ));
+    }
   }
 }
