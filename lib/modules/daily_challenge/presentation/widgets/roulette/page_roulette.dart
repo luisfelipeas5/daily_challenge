@@ -7,6 +7,9 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/rou
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+const _spinDuration = Duration(milliseconds: 3000);
+const _specialSpinDuration = Duration(milliseconds: 15000);
+
 class PageRoulette extends StatelessWidget {
   const PageRoulette({
     super.key,
@@ -21,11 +24,15 @@ class PageRoulette extends StatelessWidget {
           rouletteItems: state.rouletteItems,
           status: _getRouletteStatus(state),
           centerItemIndex: state.centerItemIndex,
+          spinDuration: _getSpinDuration(state),
           onSpinningStopped: () => _onSpinningStopped(context),
         );
       },
     );
   }
+
+  Duration _getSpinDuration(RouletteState state) =>
+      state.specialMode ? _specialSpinDuration : _spinDuration;
 
   RouletteStatus _getRouletteStatus(RouletteState state) {
     if (state.pageStatus.isSpinning()) {

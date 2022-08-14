@@ -4,14 +4,13 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/rou
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/roulette_status.dart';
 import 'package:flutter/material.dart';
 
-const _spinDuration = Duration(milliseconds: 30000);
-
 class Roulette extends StatefulWidget {
   final List<RouletteItem> rouletteItems;
   final RouletteStatus status;
   final int? centerItemIndex;
   final VoidCallback? onSpinningStopped;
   final double initialScrollOffset;
+  final Duration spinDuration;
 
   const Roulette._({
     super.key,
@@ -19,6 +18,7 @@ class Roulette extends StatefulWidget {
     required this.rouletteItems,
     required this.status,
     required this.centerItemIndex,
+    required this.spinDuration,
     this.onSpinningStopped,
   });
 
@@ -28,6 +28,7 @@ class Roulette extends StatefulWidget {
     required List<RouletteItem> rouletteItems,
     required RouletteStatus status,
     required int? centerItemIndex,
+    required Duration spinDuration,
     VoidCallback? onSpinningStopped,
   }) {
     final initialScrollOffset = RouletteDimens.getWidth(context) / 2;
@@ -37,6 +38,7 @@ class Roulette extends StatefulWidget {
       rouletteItems: rouletteItems,
       status: status,
       centerItemIndex: centerItemIndex,
+      spinDuration: spinDuration,
       onSpinningStopped: onSpinningStopped,
     );
   }
@@ -116,7 +118,7 @@ class _RouletteState extends State<Roulette> {
     _spinning = true;
     await _scrollController.animateTo(
       offset - currentCenterOffset,
-      duration: _spinDuration,
+      duration: widget.spinDuration,
       curve: Curves.decelerate,
     );
     _spinning = false;

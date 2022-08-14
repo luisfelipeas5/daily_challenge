@@ -7,8 +7,11 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const int _centerItemIndexMultiplier = 100;
-const int _centerItemIndexInitialOffset = 100;
+const int _centerItemIndexMultiplier = 10;
+const int _centerItemIndexInitialOffset = 20;
+
+const int _specialCenterItemIndexMultiplier = 50;
+const int _specialCenterItemIndexInitialOffset = 100;
 
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   RouletteBloc()
@@ -16,6 +19,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
           const RouletteState(
             rouletteItems: [],
             pageStatus: RoulettePageStatus.idle,
+            specialMode: false,
           ),
         ) {
     on<RouletteLoadEvent>(_onLoad);
@@ -42,16 +46,32 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteSpinEvent event,
     Emitter<RouletteState> emit,
   ) {
-    final realCenterItemIndex = Random().nextInt(state.rouletteItems.length);
-    final actualItemIndex = state.centerItemIndex ?? 0;
-    final centerItemIndex = actualItemIndex +
-        _centerItemIndexInitialOffset +
-        (realCenterItemIndex * _centerItemIndexMultiplier);
+    final centerItemIndex = _generateRandomCenterItemIndex();
 
     emit(state.copyWith(
       pageStatus: RoulettePageStatus.spinning,
       centerItemIndex: centerItemIndex,
     ));
+  }
+
+  int _generateRandomCenterItemIndex() {
+    final realCenterItemIndex = Random().nextInt(state.rouletteItems.length);
+    final actualItemIndex = state.centerItemIndex ?? 0;
+    return actualItemIndex +
+        _getCenterItemIndexInitialOffset() +
+        (realCenterItemIndex * _getCenterItemIndexMultiplier());
+  }
+
+  int _getCenterItemIndexMultiplier() {
+    return state.specialMode
+        ? _specialCenterItemIndexMultiplier
+        : _centerItemIndexMultiplier;
+  }
+
+  int _getCenterItemIndexInitialOffset() {
+    return state.specialMode
+        ? _specialCenterItemIndexInitialOffset
+        : _centerItemIndexInitialOffset;
   }
 
   FutureOr<void> _spinStopped(
