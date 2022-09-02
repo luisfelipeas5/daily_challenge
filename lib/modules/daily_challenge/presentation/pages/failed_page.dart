@@ -1,9 +1,6 @@
-import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/app_dialog.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/dialog_overlay.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FailedPage extends StatelessWidget {
@@ -56,8 +53,5 @@ class FailedPage extends StatelessWidget {
     );
   }
 
-  void onCtaTapped(BuildContext context) {
-    final bloc = BlocProvider.of<RouletteBloc>(context);
-    bloc.add(RouletteFailedDialogCloseEvent());
-  }
+  void onCtaTapped(BuildContext context) => Navigator.pop(context);
 }

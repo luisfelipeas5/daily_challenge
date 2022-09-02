@@ -2,51 +2,58 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/pages/failed_page.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/pages/roulette_page.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/pages/success_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 const _delayRedirection = Duration(microseconds: 800);
 
-class AppPageRedirector extends StatefulWidget {
+class AppPageRedirector extends StatelessWidget {
   const AppPageRedirector({
     super.key,
+    required this.child,
   });
 
-  @override
-  State<AppPageRedirector> createState() => _AppPageRedirectorState();
-}
-
-class _AppPageRedirectorState extends State<AppPageRedirector> {
-  bool redirectAllowed = false;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RouletteBloc, RouletteState>(
+    return BlocListener<RouletteBloc, RouletteState>(
       listener: _listener,
-      builder: _builder,
+      child: child,
     );
   }
 
   void _listener(BuildContext context, RouletteState state) async {
+    final navigatorState = Navigator.of(context);
     if (state.pageStatus.isSuccess()) {
       await Future.delayed(_delayRedirection);
     }
-    setState(() {
-      redirectAllowed =
-          state.pageStatus.isFailed() || state.pageStatus.isSuccess();
-    });
+    if (_isRedirectPageStatus(state)) {
+      await _pushNextPage(
+        navigatorState: navigatorState,
+        state: state,
+      );
+    }
   }
 
-  Widget _builder(BuildContext context, RouletteState state) {
-    return Stack(
-      children: [
-        const RoulettePage(),
-        if (state.pageStatus.isSuccess() && redirectAllowed)
-          const SuccessPage(),
-        if (state.pageStatus.isFailed() && redirectAllowed) const FailedPage(),
-      ],
+  bool _isRedirectPageStatus(RouletteState state) =>
+      state.pageStatus.isSuccess() || state.pageStatus.isFailed();
+
+  Future<void> _pushNextPage({
+    required NavigatorState navigatorState,
+    required RouletteState state,
+  }) async {
+    await navigatorState.push(
+      PageRouteBuilder(
+        pageBuilder: (context, a1, a2) {
+          return _getNextPage(state);
+        },
+        opaque: false,
+      ),
     );
   }
+
+  Widget _getNextPage(RouletteState state) =>
+      state.pageStatus.isSuccess() ? const SuccessPage() : const FailedPage();
 }
