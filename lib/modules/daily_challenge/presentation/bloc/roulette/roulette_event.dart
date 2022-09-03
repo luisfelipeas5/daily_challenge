@@ -19,16 +19,6 @@ class RouletteSpinStoppedEvent extends RouletteEvent {
   List<Object?> get props => [];
 }
 
-class RouletteSuccessDialogCloseEvent extends RouletteEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-class RouletteFailedDialogCloseEvent extends RouletteEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class RouletteAddCoinEvent extends RouletteEvent {
   @override
   List<Object?> get props => [];

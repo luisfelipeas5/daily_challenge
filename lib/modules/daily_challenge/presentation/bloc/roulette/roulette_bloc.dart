@@ -29,8 +29,6 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     on<RouletteLoadEvent>(_onLoad);
     on<RouletteSpinEvent>(_onSpin);
     on<RouletteSpinStoppedEvent>(_spinStopped);
-    on<RouletteSuccessDialogCloseEvent>(_onSuccessDialogClose);
-    on<RouletteFailedDialogCloseEvent>(_onFailedDialogClose);
     on<RouletteAddCoinEvent>(_onAddCoin);
     on<RouletteCoinDraggedEvent>(_onCoinDragged);
     on<RouletteDraggingCoinEvent>(_onDraggingCoin);
@@ -108,24 +106,6 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
       return rouletteItem.type.success;
     }
     return false;
-  }
-
-  FutureOr<void> _onSuccessDialogClose(
-    RouletteSuccessDialogCloseEvent event,
-    Emitter<RouletteState> emit,
-  ) {
-    emit(state.copyWith(
-      pageStatus: RoulettePageStatus.idle,
-    ));
-  }
-
-  FutureOr<void> _onFailedDialogClose(
-    RouletteFailedDialogCloseEvent event,
-    Emitter<RouletteState> emit,
-  ) {
-    emit(state.copyWith(
-      pageStatus: RoulettePageStatus.idle,
-    ));
   }
 
   FutureOr<void> _onAddCoin(

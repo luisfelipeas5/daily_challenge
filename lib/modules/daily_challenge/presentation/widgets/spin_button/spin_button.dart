@@ -21,6 +21,7 @@ class SpinButton extends StatelessWidget {
 
   void _onTap(BuildContext context) {
     final bloc = BlocProvider.of<RouletteBloc>(context);
+    //TODO create canSpin method to allow spin one more time after success or fail
     if (bloc.state.pageStatus.isIdle()) {
       bloc.add(RouletteSpinEvent());
     }

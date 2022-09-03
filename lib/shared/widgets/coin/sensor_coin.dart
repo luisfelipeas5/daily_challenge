@@ -4,7 +4,7 @@ import 'package:daily_challenge/shared/widgets/coin/coin.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-const double _sensorTranslateMultiplier = 2000;
+const double _sensorTranslateMultiplier = 10;
 const _eventAnimationDuration = Duration(milliseconds: 400);
 
 class SensorCoin extends StatefulWidget {
@@ -83,12 +83,16 @@ class _SensorCoinState extends State<SensorCoin>
 
   EdgeInsetsGeometry _getPadding() {
     return EdgeInsets.only(
-      top: _movingDown ? -_currentY : 0,
-      bottom: _movingDown ? 0 : _currentY,
-      left: _movingRight ? _currentX : 0,
-      right: _movingRight ? 0 : -_currentX,
+      top: _movingDown ? _translateVertical : 0,
+      bottom: _movingDown ? 0 : _translateVertical,
+      left: _movingRight ? _translateHorizontal : 0,
+      right: _movingRight ? 0 : _translateHorizontal,
     );
   }
+
+  double get _translateVertical => _currentY.abs();
+
+  double get _translateHorizontal => _currentX.abs();
 
   bool get _movingRight => _currentX > 0;
 
