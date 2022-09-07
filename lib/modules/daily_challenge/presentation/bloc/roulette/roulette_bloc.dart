@@ -83,10 +83,15 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   FutureOr<void> _spinStopped(
     RouletteSpinStoppedEvent event,
     Emitter<RouletteState> emit,
-  ) {
+  ) async {
     final newPageStatus = _getPageStatusAfterSpinningStopped();
     emit(state.copyWith(
       pageStatus: newPageStatus,
+    ));
+
+    await Future.delayed(const Duration(milliseconds: 700));
+    emit(state.copyWith(
+      pageStatus: RoulettePageStatus.idle,
     ));
   }
 
