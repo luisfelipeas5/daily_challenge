@@ -12,5 +12,5 @@ class RouletteItem {
 }
 
 extension RouletteTypeExtension on RouletteType {
-  bool get success => this == RouletteType.success;
+  bool get isSuccess => this == RouletteType.success;
 }

@@ -21,6 +21,7 @@ class DailyChallengePageDependencies extends MultiProvider {
   ) {
     return RouletteBloc(
       context.read(),
+      context.read(),
     );
   }
 }

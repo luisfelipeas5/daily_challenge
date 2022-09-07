@@ -1,31 +1,27 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/entities/roulette_configuration/roulette_configuration.dart';
-import 'package:daily_challenge/modules/daily_challenge/domain/repository/repository.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/generate_random_spin_offset/generate_random_spin_offset.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/roulette_configuration_stream/roulette_configuration_stream.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const int _centerItemIndexMultiplier = 10;
-const int _centerItemIndexInitialOffset = 20;
-
-const int _specialCenterItemIndexMultiplier = 50;
-const int _specialCenterItemIndexInitialOffset = 100;
-
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
-  final Repository _repository;
+  final GenerateRandomSpinOffset _generateRandomOffset;
+  final RouletteConfigurationStream _rouletteConfigurationStream;
 
   int coinsAdded = 0;
   int coinsDragged = 0;
 
   RouletteBloc(
-    this._repository,
+    this._generateRandomOffset,
+    this._rouletteConfigurationStream,
   ) : super(
-          const RouletteState(
-            rouletteItems: [],
+          RouletteState(
+            configuration: RouletteConfiguration.empty(),
             pageStatus: RoulettePageStatus.idle,
             specialMode: false,
             draggingCoin: false,
@@ -44,10 +40,10 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     Emitter<RouletteState> emit,
   ) async {
     await emit.forEach<RouletteConfiguration>(
-      _repository.getRouletteConfigurationStream(),
+      _rouletteConfigurationStream(),
       onData: (data) {
         return state.copyWith(
-          rouletteItems: data.getRouletteItems(),
+          configuration: data,
         );
       },
     );
@@ -57,33 +53,17 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteSpinEvent event,
     Emitter<RouletteState> emit,
   ) {
-    final centerItemIndex = _generateRandomCenterItemIndex();
+    final randomOffset = _generateRandomOffset(
+      roulleteItemsCount: state.configuration.rouletteItems.length,
+      spinConfiguration:
+          state.configuration.getSpinConfiguration(state.specialMode),
+    );
+    final actualItemIndex = state.centerItemIndex ?? 0;
 
     emit(state.copyWith(
       pageStatus: RoulettePageStatus.spinning,
-      centerItemIndex: centerItemIndex,
+      centerItemIndex: actualItemIndex + randomOffset,
     ));
-  }
-
-  int _generateRandomCenterItemIndex() {
-    final realCenterItemIndex = Random().nextInt(state.rouletteItems.length);
-    final actualItemIndex = state.centerItemIndex ?? 0;
-    return actualItemIndex +
-        _getCenterItemIndexInitialOffset() +
-        (realCenterItemIndex * _getCenterItemIndexMultiplier()) +
-        realCenterItemIndex;
-  }
-
-  int _getCenterItemIndexMultiplier() {
-    return state.specialMode
-        ? _specialCenterItemIndexMultiplier
-        : _centerItemIndexMultiplier;
-  }
-
-  int _getCenterItemIndexInitialOffset() {
-    return state.specialMode
-        ? _specialCenterItemIndexInitialOffset
-        : _centerItemIndexInitialOffset;
   }
 
   FutureOr<void> _spinStopped(
@@ -109,12 +89,12 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   }
 
   bool _isRouletteItemSuccessType() {
-    final rouletteItems = state.rouletteItems;
-    final length = rouletteItems.length;
     final centerItemIndex = state.centerItemIndex;
     if (centerItemIndex != null) {
+      final rouletteItems = state.configuration.rouletteItems;
+      final length = rouletteItems.length;
       final rouletteItem = rouletteItems[centerItemIndex % length];
-      return rouletteItem.type.success;
+      return rouletteItem.type.isSuccess;
     }
     return false;
   }

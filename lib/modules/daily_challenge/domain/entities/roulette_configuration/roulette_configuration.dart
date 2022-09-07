@@ -1,15 +1,28 @@
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/entities/spin_configuration/spin_configuration.dart';
 
 typedef RoulettePattern = List<int>;
 
 class RouletteConfiguration {
   final RoulettePattern pattern;
+  final SpinConfiguration spinConfiguration;
+  final SpinConfiguration specialSpinConfiguration;
 
-  RouletteConfiguration({
+  const RouletteConfiguration({
     required this.pattern,
+    required this.spinConfiguration,
+    required this.specialSpinConfiguration,
   });
 
-  List<RouletteItem> getRouletteItems() {
+  factory RouletteConfiguration.empty() {
+    return RouletteConfiguration(
+      pattern: [0],
+      spinConfiguration: SpinConfiguration.empty(),
+      specialSpinConfiguration: SpinConfiguration.empty(),
+    );
+  }
+
+  List<RouletteItem> get rouletteItems {
     return pattern
         .asMap()
         .map(_mapIndexValueToIndexRouletteItemList)
@@ -43,4 +56,8 @@ class RouletteConfiguration {
       _isFailedIndex(index) ? RouletteType.failed : RouletteType.success;
 
   bool _isFailedIndex(int index) => index % 2 == 0;
+
+  SpinConfiguration getSpinConfiguration(bool specialMode) {
+    return specialMode ? specialSpinConfiguration : spinConfiguration;
+  }
 }
