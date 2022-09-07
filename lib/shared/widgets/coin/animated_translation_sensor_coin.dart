@@ -76,4 +76,10 @@ class _AnimatedTranslationSensorCoinState
     const difference = endTranslationY - startTranslationY;
     return startTranslationY + (difference * _animation.value);
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

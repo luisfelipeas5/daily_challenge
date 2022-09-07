@@ -19,6 +19,8 @@ class DailyChallengePageDependencies extends MultiProvider {
   static RouletteBloc _newDailyChallengeBlocInstance(
     BuildContext context,
   ) {
-    return RouletteBloc();
+    return RouletteBloc(
+      context.read(),
+    );
   }
 }

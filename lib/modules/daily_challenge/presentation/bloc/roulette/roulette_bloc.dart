@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/entities/roulette_configuration/roulette_configuration.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/repository/repository.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
@@ -14,11 +16,14 @@ const int _specialCenterItemIndexMultiplier = 50;
 const int _specialCenterItemIndexInitialOffset = 100;
 
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
-  var coinsAdded = 0;
-  var coinsDragged = 0;
+  final Repository _repository;
 
-  RouletteBloc()
-      : super(
+  int coinsAdded = 0;
+  int coinsDragged = 0;
+
+  RouletteBloc(
+    this._repository,
+  ) : super(
           const RouletteState(
             rouletteItems: [],
             pageStatus: RoulettePageStatus.idle,
@@ -37,14 +42,15 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   FutureOr<void> _onLoad(
     RouletteLoadEvent event,
     Emitter<RouletteState> emit,
-  ) {
-    const rouletteItems = [
-      RouletteItem(type: RouletteType.failed),
-      RouletteItem(type: RouletteType.success),
-    ];
-    emit(state.copyWith(
-      rouletteItems: rouletteItems,
-    ));
+  ) async {
+    await emit.forEach<RouletteConfiguration>(
+      _repository.getRouletteConfigurationStream(),
+      onData: (data) {
+        return state.copyWith(
+          rouletteItems: data.getRouletteItems(),
+        );
+      },
+    );
   }
 
   FutureOr<void> _onSpin(

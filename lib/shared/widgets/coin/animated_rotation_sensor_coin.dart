@@ -57,4 +57,10 @@ class _AnimatedRotationSensorCoinState extends State<AnimatedRotationSensorCoin>
   }
 
   Matrix4 _getTransform() => Matrix4.rotationY(_animation.value);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
