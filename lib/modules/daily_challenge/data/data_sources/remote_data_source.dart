@@ -9,8 +9,15 @@ class RemoteDataSource {
   }
 
   Future<void> initWebConfig() async {
-    const persistenceSettings = PersistenceSettings(synchronizeTabs: true);
-    await database.enablePersistence(persistenceSettings);
+    try {
+      const persistenceSettings = PersistenceSettings(synchronizeTabs: true);
+      await database.enablePersistence(persistenceSettings);
+    } on FirebaseException catch (_) {
+      //ignore exception of that says:
+      //"Firestore has already been started and persistence can no longer"
+      //" be enabled. You can only enable persistence before calling any other"
+      //" methods on a Firestore object."
+    }
   }
 
   Stream<RouletteConfigurationModel?> getRouletteConfiguration() {

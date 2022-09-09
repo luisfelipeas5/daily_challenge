@@ -66,8 +66,14 @@ class _PageBackgroundState extends State<PageBackground> {
         duration: _animationDuration,
         curve: Curves.decelerate,
         child: Center(
-          child: Image.asset(
-            "resources/images/star.png",
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 410,
+              maxWidth: 410,
+            ),
+            child: Image.asset(
+              "resources/images/star.png",
+            ),
           ),
         ),
       ),

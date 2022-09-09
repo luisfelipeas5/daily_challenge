@@ -1,4 +1,3 @@
-import 'package:daily_challenge/shared/widgets/double_direction_alignment/double_direction_alignment.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/dialog_container_card.dart';
 import 'package:daily_challenge/shared/widgets/solid_shadow_card/text_card_button.dart';
 import 'package:flutter/material.dart';
@@ -19,17 +18,21 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        _buildCard(context),
-        _buildHeaderIcon(),
-        _buildCta(),
-      ],
+    return IntrinsicHeight(
+      child: Stack(
+        fit: StackFit.loose,
+        children: [
+          _buildCard(context),
+          _buildHeaderIcon(),
+          _buildCta(),
+        ],
+      ),
     );
   }
 
   Widget _buildCard(BuildContext context) {
-    return Center(
+    return Align(
+      alignment: Alignment.topCenter,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -45,9 +48,8 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildHeaderIcon() {
-    return DoubleDirectionAlignment(
-      horizontal: 0.5,
-      vertical: 0.38,
+    return Align(
+      alignment: Alignment.topCenter,
       child: SizedBox(
         height: 100,
         width: 100,
@@ -57,9 +59,8 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildCta() {
-    return DoubleDirectionAlignment(
-      horizontal: 0.5,
-      vertical: 0.63,
+    return Align(
+      alignment: Alignment.bottomCenter,
       child: TextCardButton(
         text: ctaText,
         onTap: onCtaTapped,

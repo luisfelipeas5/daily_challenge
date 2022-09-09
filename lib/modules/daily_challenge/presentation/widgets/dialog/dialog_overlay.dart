@@ -16,6 +16,7 @@ class DialogOverlay extends StatelessWidget {
       onTap: onTap,
       child: Container(
         color: const Color.fromRGBO(0, 0, 0, 0.61),
+        alignment: Alignment.center,
         child: child,
       ),
     );
