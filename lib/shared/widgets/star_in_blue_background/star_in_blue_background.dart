@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 const _animationDuration = Duration(seconds: 1);
 const _animationDelay = Duration.zero;
 
-class PageBackground extends StatefulWidget {
+class StarInBlueBackground extends StatefulWidget {
   final Widget? child;
 
-  const PageBackground({
+  const StarInBlueBackground({
     super.key,
     this.child,
   });
 
   @override
-  State<PageBackground> createState() => _PageBackgroundState();
+  State<StarInBlueBackground> createState() => _StarInBlueBackgroundState();
 }
 
-class _PageBackgroundState extends State<PageBackground> {
+class _StarInBlueBackgroundState extends State<StarInBlueBackground> {
   bool _finalAnimationState = false;
 
   @override

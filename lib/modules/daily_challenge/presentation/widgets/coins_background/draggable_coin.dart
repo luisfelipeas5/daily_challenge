@@ -19,7 +19,8 @@ class DraggableCoin extends StatefulWidget {
 
 class _DraggableCoinState extends State<DraggableCoin> {
   RouletteBloc get _bloc => BlocProvider.of(context);
-  var dragged = false;
+  bool draggedOnce = false;
+  bool dragged = false;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _DraggableCoinState extends State<DraggableCoin> {
           ? Container()
           : AnimatedTranslationSensorCoin(
               size: widget.size,
+              delayAnimation: !draggedOnce,
             ),
     );
   }
@@ -53,6 +55,12 @@ class _DraggableCoinState extends State<DraggableCoin> {
   }
 
   void _onDraggin(bool dragging) {
+    if (!draggedOnce) {
+      setState(() {
+        draggedOnce = true;
+      });
+    }
+
     _bloc.add(
       RouletteDraggingCoinEvent(dragging: dragging),
     );

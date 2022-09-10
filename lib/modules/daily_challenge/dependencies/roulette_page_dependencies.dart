@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class DailyChallengePageDependencies extends MultiProvider {
-  DailyChallengePageDependencies({
+class RoulettePageDependencyInjector extends MultiProvider {
+  RoulettePageDependencyInjector({
     super.key,
     required Widget child,
   }) : super(

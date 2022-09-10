@@ -3,10 +3,10 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/coi
 import 'package:daily_challenge/shared/widgets/double_direction_alignment/double_direction_alignment.dart';
 import 'package:flutter/material.dart';
 
-class PageCoinsBackground extends StatelessWidget {
+class RouletteCoinsBackground extends StatelessWidget {
   final Widget child;
 
-  const PageCoinsBackground({
+  const RouletteCoinsBackground({
     super.key,
     required this.child,
   });
@@ -34,6 +34,11 @@ class PageCoinsBackground extends StatelessWidget {
       const DoubleDirectionAlignment(
         horizontal: 0.1,
         vertical: 0.2,
+        child: DraggableCoin(size: 52),
+      ),
+      const DoubleDirectionAlignment(
+        horizontal: 0.4,
+        vertical: 0.23,
         child: DraggableCoin(size: 52),
       ),
       const DoubleDirectionAlignment(

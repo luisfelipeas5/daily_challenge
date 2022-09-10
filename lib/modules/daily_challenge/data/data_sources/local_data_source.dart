@@ -7,12 +7,10 @@ class LocalDataSource {
       pattern: _defaultRoulettePattern,
       spinConfiguration: SpinConfiguration(
         durationInMilliseconds: 3000,
-        indexMultiplier: 10,
         indexInitialOffset: 20,
       ),
       specialSpinConfiguration: SpinConfiguration(
         durationInMilliseconds: 15000,
-        indexMultiplier: 50,
         indexInitialOffset: 1000,
       ),
     );

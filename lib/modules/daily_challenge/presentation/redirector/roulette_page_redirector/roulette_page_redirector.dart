@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 const _delayRedirection = Duration(microseconds: 800);
 
-class AppPageRedirector extends StatelessWidget {
-  const AppPageRedirector({
+class RoulettePageRedirector extends StatelessWidget {
+  const RoulettePageRedirector({
     super.key,
     required this.child,
   });

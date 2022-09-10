@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const _animationDuration = Duration(milliseconds: 750);
 const _animationDelay = Duration(milliseconds: 1000);
@@ -16,6 +19,7 @@ class LogoSpace extends StatefulWidget {
 
 class _LogoSpaceState extends State<LogoSpace> {
   double _imageScale = 0;
+  RouletteBloc get _bloc => BlocProvider.of(context);
 
   @override
   void initState() {
@@ -48,14 +52,22 @@ class _LogoSpaceState extends State<LogoSpace> {
 
   void _onDoubleTap() {
     setState(() {
-      _imageScale = max(_imageScale * 0.8, 0.3);
+      _imageScale = max(_imageScale * 0.8, 0.1);
+      _addScaleEventToBloc();
     });
   }
 
   void _onLongPress() {
     setState(() {
-      _imageScale = min(_imageScale * 1.2, 1);
+      _imageScale = min(_imageScale * 1.3, 1);
+      _addScaleEventToBloc();
     });
+  }
+
+  void _addScaleEventToBloc() {
+    _bloc.add(
+      RouletteLogoScaleUpdatedEvent(scale: _imageScale),
+    );
   }
 }
 

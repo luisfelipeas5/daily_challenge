@@ -13,8 +13,9 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   final GenerateRandomSpinOffset _generateRandomOffset;
   final RouletteConfigurationStream _rouletteConfigurationStream;
 
-  int coinsAdded = 0;
-  int coinsDragged = 0;
+  int _coinsAdded = 0;
+  int _coinsDragged = 0;
+  double _logoScale = 1;
 
   RouletteBloc(
     this._generateRandomOffset,
@@ -33,6 +34,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     on<RouletteAddCoinEvent>(_onAddCoin);
     on<RouletteCoinDraggedEvent>(_onCoinDragged);
     on<RouletteDraggingCoinEvent>(_onDraggingCoin);
+    on<RouletteLogoScaleUpdatedEvent>(_onLogoScaleUpdateCoin);
   }
 
   FutureOr<void> _onLoad(
@@ -103,7 +105,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteAddCoinEvent event,
     Emitter<RouletteState> emit,
   ) {
-    coinsAdded++;
+    _coinsAdded++;
   }
 
   FutureOr<void> _onDraggingCoin(
@@ -119,11 +121,21 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteCoinDraggedEvent event,
     Emitter<RouletteState> emit,
   ) {
-    coinsDragged++;
-    if (coinsAdded == coinsDragged) {
-      emit(state.copyWith(
-        specialMode: true,
-      ));
-    }
+    _coinsDragged++;
+    emit(state.copyWith(
+      specialMode: _specialMode,
+    ));
   }
+
+  FutureOr<void> _onLogoScaleUpdateCoin(
+    RouletteLogoScaleUpdatedEvent event,
+    Emitter<RouletteState> emit,
+  ) {
+    _logoScale = event.scale;
+    emit(state.copyWith(
+      specialMode: _specialMode,
+    ));
+  }
+
+  bool get _specialMode => _coinsAdded == _coinsDragged && _logoScale == 1;
 }

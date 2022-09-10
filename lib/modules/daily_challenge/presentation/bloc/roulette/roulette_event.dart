@@ -41,3 +41,16 @@ class RouletteDraggingCoinEvent extends RouletteEvent {
         dragging,
       ];
 }
+
+class RouletteLogoScaleUpdatedEvent extends RouletteEvent {
+  final double scale;
+
+  RouletteLogoScaleUpdatedEvent({
+    required this.scale,
+  });
+
+  @override
+  List<Object?> get props => [
+        scale,
+      ];
+}

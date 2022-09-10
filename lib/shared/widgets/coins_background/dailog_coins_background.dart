@@ -25,31 +25,40 @@ class DialogCoinsBackground extends SingleChildStatelessWidget {
 
   List<Widget> _getTopCoins() {
     return [
-      const DoubleDirectionAlignment(
+      DoubleDirectionAlignment(
         horizontal: 0.2,
         vertical: 0.3,
-        child: AnimatedTranslationSensorCoin(size: 72),
+        child: _buildCoin(size: 72),
       ),
-      const DoubleDirectionAlignment(
+      DoubleDirectionAlignment(
         horizontal: 0.8,
         vertical: 0.15,
-        child: AnimatedTranslationSensorCoin(size: 106),
+        child: _buildCoin(size: 106),
       ),
     ];
   }
 
   List<Widget> _getBottomCoins() {
     return [
-      const DoubleDirectionAlignment(
+      DoubleDirectionAlignment(
         horizontal: 0.08,
         vertical: 0.8,
-        child: AnimatedTranslationSensorCoin(size: 33),
+        child: _buildCoin(size: 33),
       ),
-      const DoubleDirectionAlignment(
+      DoubleDirectionAlignment(
         horizontal: 0.9,
         vertical: 0.75,
-        child: AnimatedTranslationSensorCoin(size: 50),
+        child: _buildCoin(size: 50),
       ),
     ];
+  }
+
+  AnimatedTranslationSensorCoin _buildCoin({
+    required double size,
+  }) {
+    return AnimatedTranslationSensorCoin(
+      size: size,
+      delayAnimation: false,
+    );
   }
 }

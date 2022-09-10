@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 
 const _minAnimationDuration = Duration(milliseconds: 700);
 const _randomDurationFactor = 700;
+const _animationDelay = Duration(milliseconds: 1000);
 
 class AnimatedTranslationSensorCoin extends StatefulWidget {
   final double size;
   final bool translateY;
   final bool translateZ;
+  final bool delayAnimation;
 
   const AnimatedTranslationSensorCoin({
     super.key,
     required this.size,
     this.translateY = true,
     this.translateZ = false,
+    this.delayAnimation = true,
   });
 
   @override
@@ -39,6 +42,11 @@ class _AnimatedTranslationSensorCoinState
     _animation = Tween<double>(begin: 0, end: 1)
         .chain(CurveTween(curve: Curves.bounceOut))
         .animate(_controller);
+    _scheduleEnterAnimation();
+  }
+
+  Future<void> _scheduleEnterAnimation() async {
+    if (widget.delayAnimation) await Future.delayed(_animationDelay);
     _controller.forward();
   }
 
@@ -53,8 +61,12 @@ class _AnimatedTranslationSensorCoinState
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Container(
-          transform: _getTransform(),
+        return Transform(
+          transform: _transform,
+          origin: Offset(
+            widget.size / 2,
+            widget.size / 2,
+          ),
           child: child,
         );
       },
@@ -64,13 +76,15 @@ class _AnimatedTranslationSensorCoinState
     );
   }
 
-  Matrix4 _getTransform() => Matrix4.translationValues(
-        0,
-        widget.translateY ? _getCurrentTranslationY() : 0,
-        0,
-      );
+  double get _scale => _animation.value;
 
-  double _getCurrentTranslationY() {
+  Matrix4 get _transform => Matrix4.translationValues(
+        0,
+        widget.translateY ? _currentTranslationY : 0,
+        0,
+      )..scale(_scale);
+
+  double get _currentTranslationY {
     const startTranslationY = -100;
     const endTranslationY = 0;
     const difference = endTranslationY - startTranslationY;

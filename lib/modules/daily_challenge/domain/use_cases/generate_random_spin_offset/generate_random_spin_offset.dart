@@ -9,9 +9,6 @@ class GenerateRandomSpinOffset {
   }) {
     final realCenterItemIndex = Random().nextInt(roulleteItemsCount);
     final indexInitialOffset = spinConfiguration.indexInitialOffset;
-    final indexMultiplier = spinConfiguration.indexMultiplier;
-    return indexInitialOffset +
-        (realCenterItemIndex * indexMultiplier) +
-        realCenterItemIndex;
+    return indexInitialOffset + realCenterItemIndex;
   }
 }
