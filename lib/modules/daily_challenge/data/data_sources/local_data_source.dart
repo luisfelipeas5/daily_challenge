@@ -5,6 +5,7 @@ class LocalDataSource {
   RouletteConfiguration getRouletteConfiguration() {
     return RouletteConfiguration(
       pattern: _defaultRoulettePattern,
+      specialPattern: _specialRoulettePattern,
       spinConfiguration: SpinConfiguration(
         durationInMilliseconds: 3000,
         indexInitialOffset: 20,
@@ -17,4 +18,6 @@ class LocalDataSource {
   }
 
   List<int> get _defaultRoulettePattern => [10, 1];
+
+  List<int> get _specialRoulettePattern => [200, 1];
 }

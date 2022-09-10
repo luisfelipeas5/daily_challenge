@@ -1,3 +1,4 @@
+import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
@@ -18,7 +19,7 @@ class PageRoulette extends StatelessWidget {
       builder: (context, state) {
         return Roulette.byContext(
           context,
-          rouletteItems: state.configuration.rouletteItems,
+          rouletteItems: _getRouletteItems(state),
           status: _getRouletteStatus(state),
           centerItemIndex: state.centerItemIndex,
           spinDuration: _getSpinDuration(state),
@@ -27,6 +28,9 @@ class PageRoulette extends StatelessWidget {
       },
     );
   }
+
+  List<RouletteItem> _getRouletteItems(RouletteState state) =>
+      state.configuration.getRouletteItems(state.specialMode);
 
   Duration _getSpinDuration(RouletteState state) =>
       state.configuration.getSpinConfiguration(state.specialMode).duration;

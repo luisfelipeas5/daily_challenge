@@ -22,6 +22,7 @@ class RoulettePageDependencyInjector extends MultiProvider {
     return RouletteBloc(
       context.read(),
       context.read(),
+      context.read(),
     );
   }
 }

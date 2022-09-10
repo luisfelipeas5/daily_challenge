@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_item/roulette_item.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/entities/roulette_configuration/roulette_configuration.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/generate_random_spin_offset/generate_random_spin_offset.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/generate_random_spin_offset/special_generate_random_spin_offset.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/roulette_configuration_stream/roulette_configuration_stream.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   final GenerateRandomSpinOffset _generateRandomOffset;
+  final SpecialGenerateRandomSpinOffset _specialGenerateRandomOffset;
   final RouletteConfigurationStream _rouletteConfigurationStream;
 
   int _coinsAdded = 0;
@@ -19,6 +21,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
 
   RouletteBloc(
     this._generateRandomOffset,
+    this._specialGenerateRandomOffset,
     this._rouletteConfigurationStream,
   ) : super(
           RouletteState(
@@ -55,17 +58,21 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteSpinEvent event,
     Emitter<RouletteState> emit,
   ) {
-    final randomOffset = _generateRandomOffset(
-      roulleteItemsCount: state.configuration.rouletteItems.length,
-      spinConfiguration:
-          state.configuration.getSpinConfiguration(state.specialMode),
-    );
-    final actualItemIndex = state.centerItemIndex ?? 0;
+    final randomOffset = _getRandomOffset();
 
     emit(state.copyWith(
       pageStatus: RoulettePageStatus.spinning,
-      centerItemIndex: actualItemIndex + randomOffset,
+      centerItemIndex: randomOffset,
     ));
+  }
+
+  int _getRandomOffset() {
+    final generateRandomOffset = state.specialMode
+        ? _specialGenerateRandomOffset.call
+        : _generateRandomOffset.call;
+    return generateRandomOffset(
+      configuration: state.configuration,
+    );
   }
 
   FutureOr<void> _spinStopped(
@@ -93,7 +100,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   bool _isRouletteItemSuccessType() {
     final centerItemIndex = state.centerItemIndex;
     if (centerItemIndex != null) {
-      final rouletteItems = state.configuration.rouletteItems;
+      final rouletteItems = state.configuration.getRouletteItems(_specialMode);
       final length = rouletteItems.length;
       final rouletteItem = rouletteItems[centerItemIndex % length];
       return rouletteItem.type.isSuccess;

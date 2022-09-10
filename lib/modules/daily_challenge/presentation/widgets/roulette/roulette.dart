@@ -62,13 +62,21 @@ class _RouletteState extends State<Roulette> {
   @override
   void didUpdateWidget(covariant Roulette oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.status.idle && widget.status.spinning) {
+    if (_statusChangedToSpinning(oldWidget)) {
       final centerItemIndex = widget.centerItemIndex;
       if (centerItemIndex != null) {
         _spin(centerItemIndex);
       }
+    } else if (_statusChangedToIdle(oldWidget)) {
+      _spinToInitWithDelay();
     }
   }
+
+  bool _statusChangedToSpinning(Roulette oldWidget) =>
+      oldWidget.status.idle && widget.status.spinning;
+
+  bool _statusChangedToIdle(Roulette oldWidget) =>
+      oldWidget.status.spinning && widget.status.idle;
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +117,15 @@ class _RouletteState extends State<Roulette> {
       color: Colors.white,
       width: 2,
       height: 200,
+    );
+  }
+
+  void _spinToInitWithDelay() async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    await _scrollController.animateTo(
+      widget.initialScrollOffset,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.decelerate,
     );
   }
 

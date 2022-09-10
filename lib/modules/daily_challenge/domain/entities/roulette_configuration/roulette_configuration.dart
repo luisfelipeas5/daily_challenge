@@ -5,11 +5,13 @@ typedef RoulettePattern = List<int>;
 
 class RouletteConfiguration {
   final RoulettePattern pattern;
+  final RoulettePattern specialPattern;
   final SpinConfiguration spinConfiguration;
   final SpinConfiguration specialSpinConfiguration;
 
   const RouletteConfiguration({
     required this.pattern,
+    required this.specialPattern,
     required this.spinConfiguration,
     required this.specialSpinConfiguration,
   });
@@ -17,13 +19,21 @@ class RouletteConfiguration {
   factory RouletteConfiguration.empty() {
     return RouletteConfiguration(
       pattern: [0],
+      specialPattern: [0],
       spinConfiguration: SpinConfiguration.empty(),
       specialSpinConfiguration: SpinConfiguration.empty(),
     );
   }
 
-  List<RouletteItem> get rouletteItems {
-    return pattern
+  List<RouletteItem> getRouletteItems(bool specialMode) {
+    return _getRouletteItemsByPatter(
+      specialMode ? specialPattern : pattern,
+    );
+  }
+
+  List<RouletteItem> _getRouletteItemsByPatter(
+      RoulettePattern roulettePattern) {
+    return roulettePattern
         .asMap()
         .map(_mapIndexValueToIndexRouletteItemList)
         .values
