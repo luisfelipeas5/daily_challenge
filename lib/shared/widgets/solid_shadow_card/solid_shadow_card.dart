@@ -52,9 +52,11 @@ class _SolidShadowCardState extends State<SolidShadowCard> {
 
   Future<void> _scheduleEnterAnimation() async {
     await Future.delayed(_animationDelay);
-    setState(() {
-      _finalAnimatedState = true;
-    });
+    if (mounted) {
+      setState(() {
+        _finalAnimatedState = true;
+      });
+    }
   }
 
   @override

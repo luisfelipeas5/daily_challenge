@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 
-const _relativeAudioPercent = 0.1;
-
 class RouletteSoundPlayer extends StatefulWidget {
   final Widget child;
 
@@ -73,7 +71,7 @@ class _RouletteSoundPlayerState extends State<RouletteSoundPlayer>
 
   void _playIfSpinning(RouletteState state) {
     if (state.pageStatus.isSpinning() && state.specialMode) {
-      _seekToStartIfAlmostEnd();
+      _player.seek(Duration.zero);
       _player.play();
     }
   }
@@ -81,14 +79,6 @@ class _RouletteSoundPlayerState extends State<RouletteSoundPlayer>
   void _stopIfPlaying() {
     if (_player.playing) {
       _player.stop();
-    }
-  }
-
-  void _seekToStartIfAlmostEnd() {
-    var totalDuration = (_player.duration?.inMilliseconds ?? 0);
-    final percent = _player.position.inMilliseconds / totalDuration;
-    if (percent > _relativeAudioPercent) {
-      _player.seek(Duration.zero);
     }
   }
 }
