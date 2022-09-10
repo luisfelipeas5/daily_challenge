@@ -1,7 +1,7 @@
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/instructions/roulette_instructions.dart';
-import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/logo/logo.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/logo/logo_space.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/roulette/page_roulette.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/sound_player/sound_player.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/spin_button/spin_button.dart';
@@ -39,7 +39,7 @@ class _RoulettePageState extends State<RoulettePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Expanded(
-                    child: Logo(),
+                    child: LogoSpace(),
                   ),
                   Expanded(
                     child: _buildRoulette(),
