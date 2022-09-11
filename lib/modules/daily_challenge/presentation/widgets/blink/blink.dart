@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const _animationEnd = 2.0;
-
 class Blink extends StatefulWidget {
   final Widget child;
   final bool blinking;
@@ -27,21 +25,44 @@ class _BlinkState extends State<Blink> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: widget.animationDuration,
+      duration: _halfDuration,
     );
-    _animation =
-        Tween<double>(begin: 0, end: _animationEnd).animate(_controller);
+    _animation = Tween<double>(begin: 0, end: 1)
+        .chain(CurveTween(curve: Curves.decelerate))
+        .animate(_controller);
 
-    if (widget.blinking) {
-      _controller.repeat();
+    _animation.addStatusListener(_repeatAfterCompleted);
+    _fowardIfBlinking();
+  }
+
+  Duration get _halfDuration => Duration(
+        milliseconds: widget.animationDuration.inMilliseconds ~/ 2,
+      );
+
+  void _repeatAfterCompleted(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      _reverseWithDelay();
+    } else if (status == AnimationStatus.dismissed) {
+      _fowardIfBlinking();
     }
+  }
+
+  void _reverseWithDelay() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
+    _controller.reverse();
+  }
+
+  Future<void> _fowardIfBlinking() async {
+    if (!widget.blinking || !mounted) return;
+    _controller.forward();
   }
 
   @override
   void didUpdateWidget(covariant Blink oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.blinking) {
-      _controller.repeat();
+      _fowardIfBlinking();
     } else {
       _controller.stop();
     }
@@ -68,11 +89,6 @@ class _BlinkState extends State<Blink> with SingleTickerProviderStateMixin {
   }
 
   double get _opacityByAnimation {
-    final value = _animation.value;
-    const middle = _animationEnd / 2;
-    if (value <= middle) {
-      return (value * 2) / _animationEnd;
-    }
-    return (_animationEnd - (value - middle)) / _animationEnd;
+    return _animation.value;
   }
 }
