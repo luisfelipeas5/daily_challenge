@@ -29,6 +29,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
             pageStatus: RoulettePageStatus.idle,
             specialMode: false,
             draggingCoin: false,
+            logoBlinking: false,
           ),
         ) {
     on<RouletteLoadEvent>(_onLoad);
@@ -131,6 +132,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     _coinsDragged++;
     emit(state.copyWith(
       specialMode: _specialMode,
+      logoBlinking: _logoBlinking,
     ));
   }
 
@@ -141,8 +143,14 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     _logoScale = event.scale;
     emit(state.copyWith(
       specialMode: _specialMode,
+      logoBlinking: _logoBlinking,
     ));
   }
 
   bool get _specialMode => _coinsAdded == _coinsDragged && _logoScale == 1;
+
+  bool get _logoBlinking {
+    final missingCoinsToDrag = _coinsAdded - _coinsDragged;
+    return missingCoinsToDrag == 1 || _logoScale != 1;
+  }
 }

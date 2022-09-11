@@ -11,12 +11,14 @@ class RouletteState extends Equatable {
   final int? centerItemIndex;
   final bool specialMode;
   final bool draggingCoin;
+  final bool logoBlinking;
 
   const RouletteState({
     required this.configuration,
     required this.pageStatus,
     required this.specialMode,
     required this.draggingCoin,
+    required this.logoBlinking,
     this.centerItemIndex,
   });
 
@@ -27,6 +29,7 @@ class RouletteState extends Equatable {
         centerItemIndex,
         specialMode,
         draggingCoin,
+        logoBlinking,
       ];
 
   RouletteState copyWith({
@@ -35,6 +38,7 @@ class RouletteState extends Equatable {
     int? centerItemIndex,
     bool? specialMode,
     bool? draggingCoin,
+    bool? logoBlinking,
     RouletteConfiguration? configuration,
   }) {
     return RouletteState(
@@ -43,6 +47,7 @@ class RouletteState extends Equatable {
       centerItemIndex: centerItemIndex ?? this.centerItemIndex,
       specialMode: specialMode ?? this.specialMode,
       draggingCoin: draggingCoin ?? this.draggingCoin,
+      logoBlinking: logoBlinking ?? this.logoBlinking,
     );
   }
 }

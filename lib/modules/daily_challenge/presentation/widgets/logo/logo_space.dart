@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_bloc.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
+import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/blink/blink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,17 +38,25 @@ class _LogoSpaceState extends State<LogoSpace> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        GestureDetector(
-          onDoubleTap: _onDoubleTap,
-          onLongPress: _onLongPress,
-          child: Logo(
-            scale: _imageScale,
-          ),
-        ),
-      ],
+    return BlocBuilder<RouletteBloc, RouletteState>(
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onDoubleTap: _onDoubleTap,
+              onLongPress: _onLongPress,
+              child: Blink(
+                blinking: state.logoBlinking,
+                animationDuration: const Duration(seconds: 2),
+                child: Logo(
+                  scale: _imageScale,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
