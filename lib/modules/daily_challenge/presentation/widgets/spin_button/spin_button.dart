@@ -14,6 +14,8 @@ class SpinButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RouletteBloc, RouletteState>(
+      buildWhen: (previous, current) =>
+          previous.specialMode != current.specialMode,
       builder: (context, state) {
         return TextCardButton(
           text: state.specialMode ? "Rodar? 👀" : "Rodar",

@@ -39,6 +39,8 @@ class _LogoSpaceState extends State<LogoSpace> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RouletteBloc, RouletteState>(
+      buildWhen: (previous, current) =>
+          previous.logoBlinking != current.logoBlinking,
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,

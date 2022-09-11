@@ -90,6 +90,8 @@ class _SpecialCoinsDragTargetState extends State<SpecialCoinsDragTarget> {
 
   Widget _buildLimitIndicator() {
     return BlocBuilder<RouletteBloc, RouletteState>(
+      buildWhen: (previous, current) =>
+          previous.draggingCoin != current.draggingCoin,
       builder: (context, state) {
         if (state.draggingCoin) {
           return const LimitIndicator();
