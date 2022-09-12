@@ -4,6 +4,7 @@ import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulet
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/coins_background/draggable_coin.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/coins_drag_target/limit_indicator.dart';
 import 'package:daily_challenge/shared/widgets/coin/coin.dart';
+import 'package:daily_challenge/shared/widgets/rotate/rotate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,8 +71,14 @@ class _SpecialCoinsDragTargetState extends State<SpecialCoinsDragTarget> {
     return Positioned(
       top: offsetNormalized.dy,
       left: offsetNormalized.dx,
-      child: Coin(
-        size: key.size,
+      child: Rotate(
+        animationDuration: const Duration(seconds: 2),
+        repeat: true,
+        centerX: key.size / 2,
+        centerY: key.size / 2,
+        child: Coin(
+          size: key.size,
+        ),
       ),
     );
   }

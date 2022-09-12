@@ -1,7 +1,8 @@
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/app_dialog.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/widgets/dialog/dialog_overlay.dart';
-import 'package:daily_challenge/shared/widgets/coin/animated_rotation_sensor_coin.dart';
+import 'package:daily_challenge/shared/widgets/coin/sensor_coin.dart';
 import 'package:daily_challenge/shared/widgets/coins_background/dailog_coins_background.dart';
+import 'package:daily_challenge/shared/widgets/rotate/rotate.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPage extends StatelessWidget {
@@ -14,9 +15,7 @@ class SuccessPage extends StatelessWidget {
     return DialogOverlay(
       child: DialogCoinsBackground(
         child: AppDialog(
-          header: const AnimatedRotationSensorCoin(
-            size: 100,
-          ),
+          header: _buildHeaderCoin(),
           ctaText: "Resgatar",
           onCtaTapped: () => onCtaTapped(context),
           child: Padding(
@@ -24,6 +23,18 @@ class SuccessPage extends StatelessWidget {
             child: _buildDialogText(context),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildHeaderCoin() {
+    const size = 100.0;
+    return const Rotate(
+      animationDuration: Duration(seconds: 2),
+      centerX: size / 2,
+      centerY: size / 2,
+      child: SensorCoin(
+        size: size,
       ),
     );
   }
