@@ -4,7 +4,7 @@ import 'package:daily_challenge/modules/daily_challenge/data/models/roulette_ite
 import 'package:daily_challenge/modules/daily_challenge/domain/entities/roulette_configuration/roulette_configuration.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/generate_random_spin_offset/generate_random_spin_offset.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/generate_random_spin_offset/special_generate_random_spin_offset.dart';
-import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/roulette_configuration_stream/roulette_configuration_stream.dart';
+import 'package:daily_challenge/modules/daily_challenge/domain/use_cases/get_roulette_configuration/get_roulette_configuration.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_event.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_page_status.dart';
 import 'package:daily_challenge/modules/daily_challenge/presentation/bloc/roulette/roulette_state.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   final GenerateRandomSpinOffset _generateRandomOffset;
   final SpecialGenerateRandomSpinOffset _specialGenerateRandomOffset;
-  final RouletteConfigurationStream _rouletteConfigurationStream;
+  final GetRouletteConfiguration _getRouletteConfiguration;
 
   int _coinsAdded = 0;
   int _coinsDragged = 0;
@@ -22,7 +22,7 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
   RouletteBloc(
     this._generateRandomOffset,
     this._specialGenerateRandomOffset,
-    this._rouletteConfigurationStream,
+    this._getRouletteConfiguration,
   ) : super(
           RouletteState(
             configuration: RouletteConfiguration.empty(),
@@ -46,13 +46,10 @@ class RouletteBloc extends Bloc<RouletteEvent, RouletteState> {
     RouletteLoadEvent event,
     Emitter<RouletteState> emit,
   ) async {
-    await emit.forEach<RouletteConfiguration>(
-      _rouletteConfigurationStream(),
-      onData: (data) {
-        return state.copyWith(
-          configuration: data,
-        );
-      },
+    emit(
+      state.copyWith(
+        configuration: _getRouletteConfiguration(),
+      ),
     );
   }
 

@@ -1,14 +1,14 @@
 import 'package:daily_challenge/modules/daily_challenge/domain/entities/roulette_configuration/roulette_configuration.dart';
 import 'package:daily_challenge/modules/daily_challenge/domain/repository/repository.dart';
 
-class RouletteConfigurationStream {
+class GetRouletteConfiguration {
   final Repository _repository;
 
-  RouletteConfigurationStream(
+  GetRouletteConfiguration(
     this._repository,
   );
 
-  Stream<RouletteConfiguration> call() {
+  RouletteConfiguration call() {
     return _repository.getRouletteConfigurationStream();
   }
 }

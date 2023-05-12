@@ -13,12 +13,8 @@ class RepositoryImpl extends Repository {
   );
 
   @override
-  Stream<RouletteConfiguration> getRouletteConfigurationStream() {
-    return remoteDataSource
-        .getRouletteConfiguration()
-        .map((remoteRouletteConfiguration) {
-      return remoteRouletteConfiguration ??
-          localDataSource.getRouletteConfiguration();
-    });
+  RouletteConfiguration getRouletteConfigurationStream() {
+    final remoteConfig = remoteDataSource.getRouletteConfiguration();
+    return remoteConfig ?? localDataSource.getRouletteConfiguration();
   }
 }
