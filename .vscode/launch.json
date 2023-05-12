@@ -7,19 +7,31 @@
         {
             "name": "daily_challenge",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file",
+                ".env.json"
+            ]
         },
         {
             "name": "daily_challenge (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--dart-define-from-file",
+                ".env.json"
+            ]
         },
         {
             "name": "daily_challenge (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--dart-define-from-file",
+                ".env.json"
+            ]
         }
     ]
 }
