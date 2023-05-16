@@ -34,10 +34,10 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_svg: ^1.1.1+1
-  growthbook_sdk_flutter: ^2.0.1+0
   just_audio: ^0.9.28
   provider: ^6.0.3
   sensors_plus: ^1.3.4
+  unleash_proxy_client_flutter: ^1.2.0
 
 dev_dependencies:
   flutter_test:

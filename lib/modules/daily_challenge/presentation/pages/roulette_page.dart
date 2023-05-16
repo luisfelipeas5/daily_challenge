@@ -61,8 +61,8 @@ class _RoulettePageState extends State<RoulettePage> {
   }
 
   Widget _builtBottom() {
-    return const Column(
-      children: [
+    return Column(
+      children: const [
         RouletteInstructions(),
         SizedBox(height: 43),
         SpinButton(),
